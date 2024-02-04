@@ -25,7 +25,7 @@ def optimization(tasks):
         x[task] * (5 * tasks[task]['priority'] + 1*tasks[task]['urgency'] + 2* 100 / tasks[task]['deadline'])
         for task in tasks
     ])
-    #this gives weightage to priority and also ensures tasks with closer deadlines are completed first
+    #this gives extra weightage to priority and also ensures tasks with closer deadlines are completed first
 
     #constraints
     prob+= pulp.lpSum([x[task] for task in tasks]) <=1
