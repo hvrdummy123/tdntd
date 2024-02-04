@@ -4,7 +4,8 @@
 
 using namespace std;
 
-struct Task {
+struct Task 
+{
     string name;
     int priority;
     string startDate;
@@ -52,30 +53,36 @@ struct Task {
 };
 
 // Priority based queue class
-class PriorityTaskQueue {
+class PriorityTaskQueue 
+{
 private:
     priority_queue<Task> tasks;
 
 public:
     // Add task to the queue
-    void addTask(const Task& task) {
+    void addTask(const Task& task) 
+{
         tasks.push(task);
     }
 
     // Get the next task in the queue
-    Task getNextTask() {
-        if (!tasks.empty()) {
+    Task getNextTask() 
+    {
+        if (!tasks.empty()) 
+        {
             Task nextTask = tasks.top();
             tasks.pop();
             return nextTask;
-        } else {
+        } else 
+        {
             // Return an empty task if the queue is empty
             return Task("", 0, "", "", 0);
         }
     }
 
     // Check if the queue is empty
-    bool isEmpty() const {
+    bool isEmpty() const 
+    {
         return tasks.empty();
     }
 };
@@ -95,7 +102,8 @@ int main() {
     
 
     // Process tasks in order of priority
-    while (!taskQueue.isEmpty()) {
+    while (!taskQueue.isEmpty()) 
+    {
         Task nextTask = taskQueue.getNextTask();
         cout << "Processing task: " << nextTask.name << endl;
         int remainingTime = stoi(nextTask.deadline) - stoi(nextTask.startDate) - nextTask.duration;
