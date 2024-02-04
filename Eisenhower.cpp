@@ -1,6 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <string>
 
 using namespace std;
 
@@ -8,19 +7,19 @@ struct Task
 {
     string name;
     int priority;
-    string startDate;
-    string deadline;
+    int startDate;
+    int deadline;
     int duration;
 
     // Constructor to initialize tasks
-    Task(string n, int p, string start, string end, int dur) : name(n), priority(p), startDate(start), deadline(end), duration(dur) {}
+    Task(string n, int p, int start, int end, int dur) : name(n), priority(p), startDate(start), deadline(end), duration(dur) {}
 
     // Overloading less than operator to prioritize tasks
     bool operator<(const Task& other) const //for objects of type Task
     {
         //calculate remaining time
-        int remainingTime = stoi(deadline) - stoi(startDate) - duration;
-        int otherRemainingTime = stoi(other.deadline) - stoi(other.startDate) - other.duration;
+        int remainingTime =deadline- (startDate + duration);
+        int otherRemainingTime = other.deadline - (other.startDate + other.duration);
 
         // Determine the quadrant of each task based on its urgency and importance using eisenhower matrix
         int quadrant = 0;
@@ -76,7 +75,7 @@ public:
         } else 
         {
             // Return an empty task if the queue is empty
-            return Task("", 0, "", "", 0);
+            return Task("", 0, 0, 0, 0);
         }
     }
 
@@ -92,13 +91,13 @@ int main() {
     PriorityTaskQueue taskQueue;
 
     // Add some tasks with priorities
-    taskQueue.addTask(Task("Task 1", 3, "20240204", "20240210", 5));
-    taskQueue.addTask(Task("Task 2", 1, "20240205", "20240212", 7));
-    taskQueue.addTask(Task("Task 3", 4, "20240203", "20240208", 6));
-    taskQueue.addTask(Task("Task 4", 10, "20240203", "20240208", 10));
-    taskQueue.addTask(Task("Task 5", 6, "20240202", "20240218", 2));
-    taskQueue.addTask(Task("Task 6", 2, "20240213", "20240218", 9));
-    taskQueue.addTask(Task("Task 7", 4, "20240203", "20240205", 1));
+    taskQueue.addTask(Task("Task 1", 3, 4, 10, 5));
+    taskQueue.addTask(Task("Task 2", 1, 5, 12, 7));
+    taskQueue.addTask(Task("Task 3", 4, 3, 8, 6));
+    taskQueue.addTask(Task("Task 4", 10, 3, 8, 10));
+    taskQueue.addTask(Task("Task 5", 6, 2, 18, 2));
+    taskQueue.addTask(Task("Task 6", 2, 13, 18, 9));
+    taskQueue.addTask(Task("Task 7", 4, 3, 5, 1));
     
 
     // Process tasks in order of priority
@@ -106,7 +105,7 @@ int main() {
     {
         Task nextTask = taskQueue.getNextTask();
         cout << "Processing task: " << nextTask.name << endl;
-        int remainingTime = stoi(nextTask.deadline) - stoi(nextTask.startDate) - nextTask.duration;
+        int remainingTime = nextTask.deadline - nextTask.startDate - nextTask.duration;
         if(remainingTime<=0 && nextTask.priority>=3)
             cout<<"DO THIS TASK URGENTLY !! YOU DON'T HAVE MUCH TIME !!"<<endl;
         else if(remainingTime<=0 && nextTask.priority<3)
